@@ -1,4 +1,6 @@
-export const sendToDB = async ({data, name, phone}) => {
+export const sendToDB = async ({ name, phone}) => {
+  const data =  window.Telegram.WebApp.initDataUnsafe
+
   if (data.user.id) {
     const date = new Date().toLocaleString("ru-RU", {timeZone: 'Europe/Moscow'})
     const responce = await fetch("https://hook.eu2.make.com/2ifh78qfby2295jfdcbud5s8xf2vqtbk", {
