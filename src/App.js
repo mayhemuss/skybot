@@ -7,7 +7,7 @@ import MyInput from "./components/MyInput";
 const img_url = "https://sun9-67.userapi.com/impg/xBY9oil2cE-POjprJJ9QqsjdOeuCgTipe426EA/gSczoqHqXgc.jpg?size=1080x1920&quality=96&sign=699dcb9fb53f3d24316c86dd27dafca0&type=album"
 export const BACK_URL = "https://skynetgamesbot.ru/reg"
 
-const oldUrl = "https://back.mayhemus.keenetic.pro/reg"
+const oldUrl = "https://back.mayhemus.keenetic.pro/reg";
 function App() {
   const ref = useRef()
   const [phone, setPhone] = useState("");
