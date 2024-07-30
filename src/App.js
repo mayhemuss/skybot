@@ -5,7 +5,9 @@ import {getIdFromDB} from "./functions/getIdFromDB";
 import MyInput from "./components/MyInput";
 
 const img_url = "https://sun9-67.userapi.com/impg/xBY9oil2cE-POjprJJ9QqsjdOeuCgTipe426EA/gSczoqHqXgc.jpg?size=1080x1920&quality=96&sign=699dcb9fb53f3d24316c86dd27dafca0&type=album"
+export const BACK_URL = "https://skynetgamesbot.ru/reg"
 
+const oldUrl = "https://back.mayhemus.keenetic.pro/reg"
 function App() {
   const ref = useRef()
   const [phone, setPhone] = useState("");
@@ -13,6 +15,8 @@ function App() {
   const tg = window.Telegram.WebApp;
 
   useEffect(() => {
+    console.log(tg)
+    console.log("effect")
     tg.ready()
     getIdFromDB(tg)
   }, [])
@@ -24,10 +28,11 @@ function App() {
       if (responce.status === 200) {
         tg.close()
       } else {
-        alert("что то пошло не так")
+        alert("что то пошло не так, попробуйте еще раз")
       }
     } catch (error) {
-      alert("Что то пошло не так")
+      alert("что то пошло не так, попробуйте еще раз")
+      console.log(error)
     }
   }, [name, phone])
 
@@ -40,12 +45,15 @@ function App() {
 
   useEffect(() => {
     if (isPhoneandNameCorrect(phone, name)) {
-      tg.MainButton.show()
-      setTimeout(() => {
-        window.scrollTo(0, ref.current.scrollHeight)
-      }, 100)
+      tg.MainButton.enable()
+      tg.MainButton.setParams({
+        color: "rgb(105,179,45)"
+      })
     } else {
-      tg.MainButton.hide()
+      tg.MainButton.disable()
+      tg.MainButton.setParams({
+        color: "#888888"
+      })
     }
   }, [phone, name])
 
