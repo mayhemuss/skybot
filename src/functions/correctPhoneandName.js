@@ -29,7 +29,9 @@ export const nameValidator = (name, currentName) => {
 }
 
 
-export const isPhoneandNameCorrect = (phone, name) => {
+export const isPhoneandNameCorrect = (user) => {
+  const {phone, name} = user
+  console.log(user)
   if (phone.length === 11 && name.length > 7) {
     return true
   }

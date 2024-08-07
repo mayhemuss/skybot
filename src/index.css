@@ -16,57 +16,12 @@ body {
 
 }
 
+* {
+    max-width: 550px;
+}
 
 .App * {
     font-family: "Roboto";
-    max-width: 550px;
 
-}
-.bigcontainer{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
 
-.image{
-    display: flex;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-}
-
-.container{
-    display: flex;
-    position: absolute;
-    top: 0;
-    left: 0;
-    flex-direction: column;
-    width: 100%;
-    gap: 15px;
-    padding-top: 200px;
-    font-size: 20px;
-    align-items: center;
-}
-.popup{
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 35px;
-    border-radius: 25px;
-}
-.phone{
-    display: flex;
-    font-size: 23px;
-    padding: 10px;
-    border-radius: 10px;
-}
-.name{
-    display: flex;
-    font-size: 23px;
-    padding: 10px;
-    border-radius: 10px;
-    width: 100%;
-    height: auto;
-    resize: none;
 }

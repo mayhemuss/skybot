@@ -1,4 +1,5 @@
-import {BACK_URL} from "../App";
+import {BACK_URL} from "../urls";
+
 
 export const sendToDB = async ({name, phone}) => {
   const data = window.Telegram.WebApp.initDataUnsafe
