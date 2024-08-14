@@ -2,7 +2,7 @@ import {Spinner} from "./Pages/Spinner/Spinner";
 import {Route, Routes,} from "react-router-dom";
 import {Suspense} from 'react';
 import {FifaLazy} from "./Pages/Fifa/FifaLazy";
-import {DotaLazy} from "./Pages/Dota/DotaLazy";
+import Fifa from "./Pages/Fifa/Fifa";
 
 function App() {
 
@@ -10,8 +10,7 @@ function App() {
   return (
     <Suspense fallback={<Spinner/>}>
       <Routes>
-        <Route path={"/fifa"} element={<FifaLazy/>}/>
-        <Route path={"/dota"} element={<DotaLazy/>}/>
+        <Route path={"/games"} element={<Fifa/>}/>
       </Routes>
     </Suspense>
   )

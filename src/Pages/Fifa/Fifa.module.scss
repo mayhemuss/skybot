@@ -32,6 +32,8 @@
   background-color: rgba(0, 0, 0, 0.5);
   padding: 35px;
   border-radius: 25px;
+  display: flex;
+  flex-direction: column;
 }
 .phone{
   display: flex;
@@ -47,4 +49,28 @@
   width: 100%;
   height: auto;
   resize: none;
+}
+.phone{
+  display: flex;
+  font-size: 23px;
+  padding: 10px;
+  border-radius: 10px;
+}
+.name{
+  display: flex;
+  font-size: 23px;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  height: auto;
+  resize: none;
+}
+.text{
+  display: flex;
+}
+
+.userName{
+  display: flex;
+  margin-top: 15px;
+  font-size: 25pt;
 }
