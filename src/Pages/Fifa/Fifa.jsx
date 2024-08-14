@@ -10,6 +10,7 @@ import {
 import styles from "./Fifa.module.scss"
 import MyInput from "../../components/MyInput";
 import {tgDisable, tgEnable, tgStart} from "../../functions/setTgButton";
+import {getIdFromDB} from "../../functions/getIdFromDB";
 
 const img_url = {
   fifa: "https://sun9-67.userapi.com/impg/xBY9oil2cE-POjprJJ9QqsjdOeuCgTipe426EA/gSczoqHqXgc.jpg?size=1080x1920&quality=96&sign=699dcb9fb53f3d24316c86dd27dafca0&type=album",
@@ -41,6 +42,8 @@ function Fifa() {
   const tg = window.Telegram.WebApp;
 
   useEffect(() => {
+    getIdFromDB(tg).then(() => {
+    })
     const obj = {}
     decodeURI(new URLSearchParams(window.location.search).toString()).split("&").forEach(param => {
       const [name, parametr] = param.split("=")
