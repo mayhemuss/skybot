@@ -10,7 +10,7 @@ function App() {
   return (
     <Suspense fallback={<Spinner/>}>
       <Routes>
-        <Route path={"/games"} element={<Fifa/>}/>
+        <Route path={"/"} element={<Fifa/>}/>
       </Routes>
     </Suspense>
   )
