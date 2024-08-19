@@ -42,8 +42,7 @@ function Fifa() {
   const tg = window.Telegram.WebApp;
 
   useEffect(() => {
-    getIdFromDB(tg).then(() => {
-    })
+
     const obj = {}
     decodeURI(new URLSearchParams(window.location.search).toString()).split("&").forEach(param => {
       const [name, parametr] = param.split("=")
@@ -59,6 +58,9 @@ function Fifa() {
       fetch('https://api.ipify.org?format=json')
         .then(res => res.json())
         .then(data => setIp(data.ip));
+      getIdFromDB(tg).then(() => {
+      })
+
     } catch (e) {
     }
 

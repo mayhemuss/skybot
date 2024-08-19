@@ -7,10 +7,10 @@ export const getIdFromDB = async (tg) => {
     const responce = await
       fetch(
         BACK_URL + `/type?id=${data.user.id}`, {
-          method: "GET",
+          method: "POST",
           headers: {'Access-Control-Allow-Origin': '*'}
         })
-
+    return responce.json()
   } catch (error) {
     console.log(error)
   }
