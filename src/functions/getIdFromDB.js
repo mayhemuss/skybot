@@ -11,7 +11,7 @@ export const getIdFromDB = async (tg) => {
           },
           body: JSON.stringify({id: data.user.id})
         })
-    return responce.json()
+    return responce
   } catch (error) {
     console.log(error)
   }
