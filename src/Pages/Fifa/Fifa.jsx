@@ -43,7 +43,7 @@ function Fifa() {
   const tg = window.Telegram.WebApp;
 
   useEffect(() => {
-    getIdFromDB(tg).then(data => console.log(data))
+
     const obj = {}
     decodeURI(new URLSearchParams(window.location.search).toString()).split("&").forEach(param => {
       const [name, parametr] = param.split("=")

@@ -1,3 +1,5 @@
+import {getIdFromDB} from "./getIdFromDB";
+
 export const tgEnable = (tg) => {
   tg.MainButton.enable()
   tg.MainButton.setParams({
@@ -11,11 +13,13 @@ export const tgDisable = (tg) => {
   })
 }
 
-export const tgStart = (tg, obj)=>{
+export const tgStart =async (tg, obj)=>{
   tg.ready()
+
   tg.MainButton.show()
   tg.MainButton.setParams({
     text: obj.regText,
     color: "#888888"
   })
+ await getIdFromDB(tg)
 }
