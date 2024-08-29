@@ -6,9 +6,10 @@ export const getIdFromDB = async (tg) => {
   try {
     const responce = await
       fetch(
-        BACK_URL + `/type?id=${data.user.id}`, {
+        'http://45.12.229.64/reg/type', {
           method: "POST",
-          headers: {'Access-Control-Allow-Origin': '*'}
+          headers: {'Access-Control-Allow-Origin': '*'},
+          body:JSON.stringify({id: data.user.id})
         })
     return responce.json()
   } catch (error) {
