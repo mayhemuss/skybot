@@ -3,6 +3,7 @@ import {Route, Routes,} from "react-router-dom";
 import {Suspense} from 'react';
 import {FifaLazy} from "./Pages/Fifa/FifaLazy";
 import Fifa from "./Pages/Fifa/Fifa";
+import Iphone from "./Pages/Iphone/Iphone";
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
     <Suspense fallback={<Spinner/>}>
       <Routes>
         <Route path={"/"} element={<Fifa/>}/>
+        <Route path={"/iphone"} element={<Iphone/>}/>
       </Routes>
     </Suspense>
   )
