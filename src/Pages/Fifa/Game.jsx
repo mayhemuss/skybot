@@ -127,7 +127,7 @@ function Game() {
               />
               {query && query.commandMemberCount > 1 ?
                 <>
-                  <div className={styles.text}> Название команды:</div>
+                  <div className={styles.text}> Название команды (+ средний ранг):</div>
                   <MyInput
                     mytype={true}
                     val={command}
