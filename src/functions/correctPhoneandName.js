@@ -45,5 +45,5 @@ export const isPhoneandNameCorrect = (user) => {
 
 
 export const CommandCorrect = (command) => {
-  return command.length >= 3
+  return command.length >= 1
 }
