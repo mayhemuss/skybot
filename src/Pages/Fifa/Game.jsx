@@ -7,7 +7,7 @@ import {
   nameValidator,
   phoneValidator
 } from "../../functions/correctPhoneandName";
-import styles from "./Fifa.module.scss"
+import styles from "./Game.module.scss"
 import MyInput from "../../components/MyInput";
 import {tgDisable, tgEnable, tgStart} from "../../functions/setTgButton";
 import {getIdFromDB} from "../../functions/getIdFromDB";
@@ -24,7 +24,7 @@ const test = {
   capId: ""
 }
 
-function Fifa() {
+function Game() {
   // const ref = useRef()
   const [ip, setIp] = useState()
   const [name, setName] = useState("")
@@ -148,4 +148,4 @@ function Fifa() {
     ;
 }
 
-export default Fifa;
+export default Game;

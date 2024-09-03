@@ -24,7 +24,7 @@ const test = {
   capId: ""
 }
 
-function Fifa() {
+function Iphone() {
   // const ref = useRef()
   const [ip, setIp] = useState()
   const [name, setName] = useState("")
@@ -37,7 +37,7 @@ function Fifa() {
   const tg = window.Telegram.WebApp;
 
   useEffect(() => {
-
+//
     const obj = {}
     decodeURI(new URLSearchParams(window.location.search).toString()).split("&").forEach(param => {
       const [name, parametr] = param.split("=")
@@ -81,7 +81,9 @@ function Fifa() {
 
   useEffect(() => {
     const phoneNameisCorrect = isPhoneandNameCorrect({phone, name})
-    const comandName = query.commandMemberCount > 1 ? CommandCorrect(steamName) : true
+    const comandName = CommandCorrect(steamName)
+    console.log("phonename=", phoneNameisCorrect)
+    console.log("steam=", comandName)
     if (phoneNameisCorrect && comandName) {
       tgEnable(tg)
     } else {
@@ -128,7 +130,6 @@ function Fifa() {
               <MyInput
                 mytype={true}
                 val={steamName}
-                // dis={!!query.commandName}
                 callBack={setSteamName}
                 className={styles.name}
                 placeholder={"Ник в Steam"}
@@ -144,4 +145,4 @@ function Fifa() {
     ;
 }
 
-export default Fifa;
+export default Iphone;

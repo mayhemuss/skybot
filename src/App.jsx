@@ -1,8 +1,8 @@
 import {Spinner} from "./Pages/Spinner/Spinner";
 import {Route, Routes,} from "react-router-dom";
 import {Suspense} from 'react';
-import Fifa from "./Pages/Fifa/Fifa";
-import Iphone from "./Pages/Iphone/Iphone";
+import {GameLazy} from "./Pages/Fifa/GameLazy";
+import {IphoneLazy} from "./Pages/Iphone/IphoneLazy";
 
 function App() {
 
@@ -10,8 +10,8 @@ function App() {
   return (
     <Suspense fallback={<Spinner/>}>
       <Routes>
-        <Route path={"/app"} element={<Fifa/>}/>
-        <Route path={"/iphone"} element={<Iphone/>}/>
+        <Route path={"/game"} element={<GameLazy/>}/>
+        <Route path={"/lottery"} element={<IphoneLazy/>}/>
       </Routes>
     </Suspense>
   );
