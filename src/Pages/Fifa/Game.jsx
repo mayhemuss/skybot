@@ -3,8 +3,9 @@ import {sendToDB} from "../../functions/sendToDB";
 import {
   CommandCorrect,
   commandValidator,
-  isPhoneandNameCorrect,
+  NameIsCorrect,
   nameValidator,
+  PhoneIsCorrect,
   phoneValidator
 } from "../../functions/correctPhoneandName";
 import styles from "./Game.module.scss"
@@ -30,6 +31,14 @@ function Game() {
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
 
+
+  const [isPhonecorrect, setIsPhonecorrect] = useState(false);
+
+  const [isNameCorrect, setIsNameCorrect] = useState(false);
+
+  const [isCommandcorrect, setIsCommandcorrect] = useState(false);
+
+
   const [command, setCommand] = useState("")
   const [query, setQuery] = useState({})
   const currentDate = new Date()
@@ -49,6 +58,9 @@ function Game() {
     }
     tgStart(tg, obj)
 
+  }, [])
+
+  useEffect(() => {
     try {
       fetch('https://api.ipify.org?format=json')
         .then(res => res.json())
@@ -57,8 +69,8 @@ function Game() {
       })
 
     } catch (e) {
+      console.log(e)
     }
-
   }, [])
 
 
@@ -82,9 +94,18 @@ function Game() {
   }, [onSendData])
 
   useEffect(() => {
-    const phoneNameisCorrect = isPhoneandNameCorrect({phone, name})
-    const comandName = query.commandMemberCount > 1 ? CommandCorrect(command) : true
-    if (phoneNameisCorrect && comandName) {
+    const namecorr = NameIsCorrect(name)
+    const phonecorr = PhoneIsCorrect(phone)
+    const commandcorr = query.commandMemberCount > 1 ? CommandCorrect(command) : true
+    setIsNameCorrect(NameIsCorrect(name))
+    setIsPhonecorrect(PhoneIsCorrect(phone))
+    if (query.commandMemberCount > 1) {
+      setIsCommandcorrect(CommandCorrect(command))
+    } else {
+      setIsCommandcorrect(true)
+    }
+
+    if (namecorr && phonecorr && commandcorr) {
       tgEnable(tg)
     } else {
       tgDisable(tg)
@@ -114,6 +135,7 @@ function Game() {
                 className={styles.phone}
                 callBack={setPhone}
                 placeholder={"89991234567"}
+                check={isPhonecorrect}
               />
 
               <div className={styles.text}> Ф.И.О.:</div>
@@ -124,10 +146,11 @@ function Game() {
                 className={styles.name}
                 placeholder={"Ф.И.О. (кирилицей)"}
                 validator={nameValidator}
+                check={isNameCorrect}
               />
               {query && query.commandMemberCount > 1 ?
                 <>
-                  <div className={styles.text}> Название команды (+ средний ранг):</div>
+                  <div className={styles.text}> Название команды:</div>
                   <MyInput
                     mytype={true}
                     val={command}
@@ -136,6 +159,7 @@ function Game() {
                     className={styles.name}
                     placeholder={"Название команды"}
                     validator={commandValidator}
+                    check={isCommandcorrect}
                   />
                 </>
                 : <></>}

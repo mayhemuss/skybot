@@ -35,11 +35,15 @@ export const commandValidator = (name, currentName) => {
   return name
 }
 
+export const NameIsCorrect = (name) => {
+  return name.length > 7
+}
 
-export const isPhoneandNameCorrect = (user) => {
-  const {phone, name} = user
-  console.log(user)
-  return phone.length === 11 && name.length > 7;
+
+export const PhoneIsCorrect = (phone) => {
+
+
+  return phone.length === 11
 
 }
 

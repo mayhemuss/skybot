@@ -13,7 +13,7 @@ export const tgDisable = (tg) => {
   })
 }
 
-export const tgStart =async (tg, obj)=>{
+export const tgStart = (tg, obj)=>{
   tg.ready()
 
   tg.MainButton.show()
@@ -21,5 +21,5 @@ export const tgStart =async (tg, obj)=>{
     text: obj.regText,
     color: "#888888"
   })
- await getIdFromDB(tg)
+  getIdFromDB(tg).then()
 }

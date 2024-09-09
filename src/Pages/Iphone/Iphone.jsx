@@ -3,8 +3,9 @@ import {sendToDB} from "../../functions/sendToDB";
 import {
   CommandCorrect,
   commandValidator,
-  isPhoneandNameCorrect,
+  NameIsCorrect,
   nameValidator,
+  PhoneIsCorrect,
   phoneValidator
 } from "../../functions/correctPhoneandName";
 import styles from "./Iphone.module.scss"
@@ -29,6 +30,13 @@ function Iphone() {
   const [ip, setIp] = useState()
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
+
+  const [isPhonecorrect, setIsPhonecorrect] = useState(false);
+
+  const [isNameCorrect, setIsNameCorrect] = useState(false);
+
+  const [isCommandcorrect, setIsCommandcorrect] = useState();
+
 
   const [steamName, setSteamName] = useState("")
   const [query, setQuery] = useState({})
@@ -80,11 +88,12 @@ function Iphone() {
   }, [onSendData])
 
   useEffect(() => {
-    const phoneNameisCorrect = isPhoneandNameCorrect({phone, name})
+
     const comandName = CommandCorrect(steamName)
-    console.log("phonename=", phoneNameisCorrect)
-    console.log("steam=", comandName)
-    if (phoneNameisCorrect && comandName) {
+    setIsNameCorrect(NameIsCorrect(name))
+    setIsPhonecorrect(PhoneIsCorrect(phone))
+
+    if (isPhonecorrect && isNameCorrect && comandName) {
       tgEnable(tg)
     } else {
       tgDisable(tg)
