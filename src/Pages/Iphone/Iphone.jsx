@@ -35,7 +35,7 @@ function Iphone() {
 
   const [isNameCorrect, setIsNameCorrect] = useState(false);
 
-  const [isCommandcorrect, setIsCommandcorrect] = useState();
+  const [isCommandcorrect, setIsCommandcorrect] = useState(false);
 
 
   const [steamName, setSteamName] = useState("")
@@ -45,16 +45,22 @@ function Iphone() {
   const tg = window.Telegram.WebApp;
 
   useEffect(() => {
-//
+
     const obj = {}
-    decodeURI(new URLSearchParams(window.location.search).toString()).split("&").forEach(param => {
+    decodeURI(window.location.search).replaceAll("%20"," ").slice(1).split("&").forEach(param => {
       const [name, parametr] = param.split("=")
-      obj[name] = decodeURI(parametr)
+      obj[name] = parametr.replaceAll("%20"," ")
     })
     setQuery(obj)
-
+    if (obj.commandName) {
+      setCommand(obj.commandName)
+    }
     tgStart(tg, obj)
+    console.log("fetch")
 
+  }, [])
+
+  useEffect(() => {
     try {
       fetch('https://api.ipify.org?format=json')
         .then(res => res.json())
@@ -63,8 +69,8 @@ function Iphone() {
       })
 
     } catch (e) {
+      console.log(e)
     }
-
   }, [])
 
 
@@ -88,12 +94,16 @@ function Iphone() {
   }, [onSendData])
 
   useEffect(() => {
-
-    const comandName = CommandCorrect(steamName)
+    const namecorr = NameIsCorrect(name)
+    const phonecorr = PhoneIsCorrect(phone)
+    const commandcorr = CommandCorrect(steamName)
     setIsNameCorrect(NameIsCorrect(name))
     setIsPhonecorrect(PhoneIsCorrect(phone))
 
-    if (isPhonecorrect && isNameCorrect && comandName) {
+    setIsCommandcorrect(CommandCorrect(steamName))
+
+
+    if (namecorr && phonecorr && commandcorr) {
       tgEnable(tg)
     } else {
       tgDisable(tg)
@@ -123,6 +133,7 @@ function Iphone() {
                 className={styles.phone}
                 callBack={setPhone}
                 placeholder={"89991234567"}
+                check={isPhonecorrect}
               />
 
               <div className={styles.text}> Ф.И.О.:</div>
@@ -133,6 +144,7 @@ function Iphone() {
                 className={styles.name}
                 placeholder={"Ф.И.О. (кирилицей)"}
                 validator={nameValidator}
+                check={isNameCorrect}
               />
 
               <div className={styles.text}>Ник в Steam</div>
@@ -143,6 +155,7 @@ function Iphone() {
                 className={styles.name}
                 placeholder={"Ник в Steam"}
                 validator={commandValidator}
+                check={isCommandcorrect}
               />
 
             </>

@@ -48,9 +48,9 @@ function Game() {
   useEffect(() => {
 
     const obj = {}
-    decodeURI(new URLSearchParams(window.location.search).toString()).split("&").forEach(param => {
+    decodeURI(window.location.search).replaceAll("%20", " ").slice(1).split("&").forEach(param => {
       const [name, parametr] = param.split("=")
-      obj[name] = decodeURI(parametr)
+      obj[name] = parametr.replaceAll("%20", " ")
     })
     setQuery(obj)
     if (obj.commandName) {

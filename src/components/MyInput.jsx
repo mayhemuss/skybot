@@ -16,9 +16,23 @@ function MyInput(props) {
       <div style={{
         display: "flex",
         flexDirection: "row",
-        marginBottom: "10px"
-      }}>
-        <textarea className={className} value={val} placeholder={placeholder} onChange={handler} disabled={dis}/>
+        marginBottom: "10px",
+        width:"100%",
+        backgroundColor: "white",
+        padding:"7px",
+        borderRadius: "10px"
+      }}
+      >
+        <textarea
+          style={{
+            border:"none",
+          width:"90%",
+            resize: "none",
+            fontFamily: "Roboto",
+            fontSize: "23px",
+padding:"7px"
+          }}
+          value={val} placeholder={placeholder} onChange={handler} disabled={dis}/>
         <img
           src={check ? good : bad}
           style={{
@@ -34,19 +48,33 @@ function MyInput(props) {
     return (<div style={{
         display: "flex",
         flexDirection: "row",
-        marginBottom: "10px"
-      }}>
-        <input type={"tel"} className={className} value={val} placeholder={placeholder} onChange={handler}/>
+        marginBottom: "10px",
+        width:"100%",
+        backgroundColor: "white",
+        padding:"7px",
+        borderRadius: "10px"
+      }}
+      >
+        <input
+          style={{
+            border:"none",
+            width:"90%",
+            resize: "none",
+            fontFamily: "Roboto",
+            fontSize: "23px",
+padding:"7px"
+          }}
+          type={"tel"}  value={val} placeholder={placeholder} onChange={handler}/>
         <img
           src={check ? good : bad}
           style={{
-            paddingLeft: "2%",
             width: "10%",
             justifyContent: "center",
             alignItems: "center",
             textAlign: "center",
-
-          }}/>
+            paddingLeft: "2%",
+          }}
+        />
       </div>
     )
   }
