@@ -32,6 +32,19 @@ export const commandValidator = (name, currentName) => {
   if (name.length > 40) {
     return currentName
   }
+  if (name[name.length - 1] === "\"" ) {
+        return currentName
+  }
+  if (name[name.length - 1] === "\`" ) {
+    return currentName
+  }
+  if (name[name.length - 1] === "\/" ) {
+    return currentName
+  }
+  if (name[name.length - 1] === "\'" ) {
+    return currentName
+  }
+
   return name
 }
 
