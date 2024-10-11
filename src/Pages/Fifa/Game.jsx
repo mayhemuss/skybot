@@ -37,9 +37,11 @@ function Game() {
   const [isNameCorrect, setIsNameCorrect] = useState(false);
 
   const [isCommandcorrect, setIsCommandcorrect] = useState(false);
+  const [isRatingcorrect, setIsRatingcorrect] = useState(false);
 
 
   const [command, setCommand] = useState("")
+  const [rating, setRating] = useState("")
   const [query, setQuery] = useState({})
   const currentDate = new Date()
 
@@ -76,7 +78,7 @@ function Game() {
 
   const onSendData = useCallback(async () => {
     try {
-      const responce = await sendToDB({name, phone, command, query, ip})
+      const responce = await sendToDB({name, phone, command, query, ip, rating})
       if (responce.status === 200) {
         tg.close()
       }
@@ -84,7 +86,7 @@ function Game() {
 
       console.log(error)
     }
-  }, [name, phone, command, query])
+  }, [name, phone, command, query, rating])
 
   useEffect(() => {
     tg.onEvent('mainButtonClicked', onSendData)
@@ -97,20 +99,22 @@ function Game() {
     const namecorr = NameIsCorrect(name)
     const phonecorr = PhoneIsCorrect(phone)
     const commandcorr = query.commandMemberCount > 1 ? CommandCorrect(command) : true
+    const ratingcorr = query.commandMemberCount > 1 ? CommandCorrect(rating) : true
     setIsNameCorrect(NameIsCorrect(name))
     setIsPhonecorrect(PhoneIsCorrect(phone))
+    setIsRatingcorrect(CommandCorrect(rating))
     if (query.commandMemberCount > 1) {
       setIsCommandcorrect(CommandCorrect(command))
     } else {
       setIsCommandcorrect(true)
     }
 
-    if (namecorr && phonecorr && commandcorr) {
+    if (namecorr && phonecorr && commandcorr && ratingcorr) {
       tgEnable(tg)
     } else {
       tgDisable(tg)
     }
-  }, [phone, name, command, query])
+  }, [phone, name, command, query, rating])
 
   return (
     < div
@@ -150,7 +154,7 @@ function Game() {
               />
               {query && query.commandMemberCount > 1 ?
                 <>
-                  <div className={styles.text}> Название команды (+ средний ранг):</div>
+                  <div className={styles.text}> Название команды:</div>
                   <MyInput
                     mytype={true}
                     val={command}
@@ -161,8 +165,20 @@ function Game() {
                     validator={commandValidator}
                     check={isCommandcorrect}
                   />
+                  <div className={styles.text}>Ваш рейтинг в игре:</div>
+                  <MyInput
+                    mytype={true}
+                    val={rating}
+                    // dis={!!query.rating}
+                    callBack={setRating}
+                    className={styles.name}
+                    placeholder={"Ваш рейтинг"}
+                    validator={commandValidator}
+                    check={isRatingcorrect}
+                  />
                 </>
                 : <></>}
+              {/*<button onClick={() => onSendData()}>send</button>*/}
             </>
           }
         </div>

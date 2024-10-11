@@ -1,7 +1,7 @@
 import {BACK_URL} from "../urls";
 
 
-export const sendToDB = async ({name, phone, command,steamName, query, ip}) => {
+export const sendToDB = async ({name, phone, command, steamName, query, ip,rating}) => {
   try {
 
     const {
@@ -31,13 +31,14 @@ export const sendToDB = async ({name, phone, command,steamName, query, ip}) => {
           chatId: data.user.id,
           tname: data.user.first_name,
           username: data.user.username,
-          regType,
-          ref,
+          regType: regType === "capitan" ? "capitan" : "user",
+          ref: ref ? +ref : data.user.id,
           callData,
           commandName: commandMemberCount > 1 ? command : null,
           ip,
           capId,
-          steamName
+          steamName,
+          rating
         }),
         headers: {
           'Access-Control-Allow-Origin': '*',

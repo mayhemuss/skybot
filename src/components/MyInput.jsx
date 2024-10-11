@@ -17,20 +17,20 @@ function MyInput(props) {
         display: "flex",
         flexDirection: "row",
         marginBottom: "10px",
-        width:"100%",
+        width: "100%",
         backgroundColor: "white",
-        padding:"7px",
+        padding: "7px",
         borderRadius: "10px"
       }}
       >
         <textarea
           style={{
-            border:"none",
-          width:"90%",
+            border: "none",
+            width: "90%",
             resize: "none",
             fontFamily: "Roboto",
             fontSize: "23px",
-padding:"7px"
+            padding: "7px"
           }}
           value={val} placeholder={placeholder} onChange={handler} disabled={dis}/>
         <img
@@ -49,22 +49,22 @@ padding:"7px"
         display: "flex",
         flexDirection: "row",
         marginBottom: "10px",
-        width:"100%",
+        width: "100%",
         backgroundColor: "white",
-        padding:"7px",
+        padding: "7px",
         borderRadius: "10px"
       }}
       >
         <input
           style={{
-            border:"none",
-            width:"90%",
+            border: "none",
+            width: "90%",
             resize: "none",
             fontFamily: "Roboto",
             fontSize: "23px",
-padding:"7px"
+            padding: "7px"
           }}
-          type={"tel"}  value={val} placeholder={placeholder} onChange={handler}/>
+          type={"tel"} value={val} placeholder={placeholder} onChange={handler}/>
         <img
           src={check ? good : bad}
           style={{
