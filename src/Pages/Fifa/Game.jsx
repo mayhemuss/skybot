@@ -10,9 +10,8 @@ import {
 } from "../../functions/correctPhoneandName";
 import styles from "./Game.module.scss"
 import MyInput from "../../components/MyInput";
-import {tgDisable, tgEnable, tgStart} from "../../functions/setTgButton";
+import {tgDisable, tgEnable} from "../../functions/setTgButton";
 import {getIdFromDB} from "../../functions/getIdFromDB";
-import {backgroundsImg} from "../../images/backgroundsImg";
 
 
 const test = {
@@ -47,20 +46,35 @@ function Game() {
 
   const tg = window.Telegram.WebApp;
 
-  useEffect(() => {
+  useEffect(async () => {
 
-    const obj = {}
-    decodeURI(window.location.search).replaceAll("%20", " ").slice(1).split("&").forEach(param => {
-      const [name, parametr] = param.split("=")
-      obj[name] = parametr.replaceAll("%20", " ")
-    })
-    setQuery(obj)
-    if (obj.commandName) {
-      setCommand(obj.commandName)
+    if (tg.initDataUnsafe !== undefined) {
+      const obj = {}
+      decodeURI(window.location.search).replaceAll("%20", " ").slice(1).split("&").forEach(param => {
+        const [name, parametr] = param.split("=")
+        obj[name] = parametr.replaceAll("%20", " ")
+      })
+
+      const {ref, callData} = obj
+
+      console.log(ref)
+      const response = await getIdFromDB(ref ? ref : tg.initDataUnsafe.user.id, callData, tg)
+
+      console.log("responce___", response)
+      setQuery({...obj, ...response})
+
+      if (response.commandName) {
+        setCommand(obj.commandName)
+      }
+
+      tg.ready()
+
+
+      console.log({...obj, ...response})
     }
-    tgStart(tg, obj)
 
-  }, [])
+
+  }, [tg])
 
   useEffect(() => {
     try {
@@ -77,15 +91,35 @@ function Game() {
 
 
   const onSendData = useCallback(async () => {
-    try {
-      const responce = await sendToDB({name, phone, command, query, ip, rating})
-      if (responce.status === 200) {
-        tg.close()
-      }
-    } catch (error) {
 
-      console.log(error)
+
+    async function fetchWithRetry(quer, retries = 3, delay = 1000) {
+      for (let i = 0; i < retries; i++) {
+        try {
+          const response = await sendToDB(quer)
+
+          // Если запрос успешен, возвращаем результат
+          if (response.status === 200) {
+            console.log("done")
+            return tg.close()
+          } else {
+            throw new Error(`Ошибка HTTP: ${response.status}`);
+          }
+        } catch (error) {
+          if (i < retries - 1) {
+            console.log(`Попытка ${i + 1} не удалась. Повтор через ${delay} мс.`);
+            await new Promise(res => setTimeout(res, delay)); // Ждем перед повторной попыткой
+          } else {
+            console.error('Все попытки исчерпаны. Ошибка:', error);
+            throw error; // Пробрасываем ошибку, если это была последняя попытка
+          }
+        }
+      }
     }
+
+    await fetchWithRetry({name, phone, command, query, ip, rating}, 4, 1000)
+
+
   }, [name, phone, command, query, rating])
 
   useEffect(() => {
@@ -96,15 +130,23 @@ function Game() {
   }, [onSendData])
 
   useEffect(() => {
+    tg.MainButton.show()
+    tg.MainButton.setParams({
+      text: query.regText,
+      color: "#888888"
+    })
+  }, [query]);
+
+  useEffect(() => {
     const namecorr = NameIsCorrect(name)
     const phonecorr = PhoneIsCorrect(phone)
-    const commandcorr = query.commandMemberCount > 1 ? CommandCorrect(command) : true
+    const commandcorr = query.commandMemberCount > 1 ? CommandCorrect(query.commandName ? query.commandName : command) : true
     const ratingcorr = query.commandMemberCount > 1 ? CommandCorrect(rating) : true
     setIsNameCorrect(NameIsCorrect(name))
     setIsPhonecorrect(PhoneIsCorrect(phone))
     setIsRatingcorrect(CommandCorrect(rating))
     if (query.commandMemberCount > 1) {
-      setIsCommandcorrect(CommandCorrect(command))
+      setIsCommandcorrect(CommandCorrect(query.commandName ? query.commandName : command))
     } else {
       setIsCommandcorrect(true)
     }
@@ -121,7 +163,7 @@ function Game() {
       className={styles.bigcontainer}>
       <img
         className={styles.image}
-        src={backgroundsImg[query?.callData?.split("_")[0]]}
+        src={query.inAppimageUrl}
         alt={"SkyNet"}
       />
       <div className={styles.container}>
@@ -157,7 +199,7 @@ function Game() {
                   <div className={styles.text}> Название команды:</div>
                   <MyInput
                     mytype={true}
-                    val={command}
+                    val={query.commandName ? query.commandName : command}
                     dis={!!query.commandName}
                     callBack={setCommand}
                     className={styles.name}
@@ -178,7 +220,9 @@ function Game() {
                   />
                 </>
                 : <></>}
-              {/*<button onClick={() => onSendData()}>send</button>*/}
+
+
+
             </>
           }
         </div>

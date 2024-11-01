@@ -1,6 +1,6 @@
 import {BACK_URL} from "../urls";
 
-export const getIdFromDB = async (tg) => {
+export const getIdFromDB = async (ref, callData, tg) => {
   const data = tg.initDataUnsafe
   try {
     const responce = await
@@ -11,9 +11,9 @@ export const getIdFromDB = async (tg) => {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({id: data.user.id})
+          body: JSON.stringify({ref, callData, chatId: data.user.id})
         })
-    return responce
+    return responce.json()
   } catch (error) {
     console.log(error)
   }

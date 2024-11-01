@@ -10,9 +10,8 @@ import {
 } from "../../functions/correctPhoneandName";
 import styles from "./Iphone.module.scss"
 import MyInput from "../../components/MyInput";
-import {tgDisable, tgEnable, tgStart} from "../../functions/setTgButton";
+import {tgDisable, tgEnable} from "../../functions/setTgButton";
 import {getIdFromDB} from "../../functions/getIdFromDB";
-import {backgroundsImg} from "../../images/backgroundsImg";
 
 
 const test = {
@@ -26,7 +25,7 @@ const test = {
 }
 
 function Iphone() {
-  // const ref = useRef()
+
   const [ip, setIp] = useState()
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
@@ -44,21 +43,33 @@ function Iphone() {
 
   const tg = window.Telegram.WebApp;
 
-  useEffect(() => {
+  useEffect(async() => {
 
-    const obj = {}
-    decodeURI(window.location.search).replaceAll("%20"," ").slice(1).split("&").forEach(param => {
-      const [name, parametr] = param.split("=")
-      obj[name] = parametr.replaceAll("%20"," ")
-    })
-    setQuery(obj)
-    if (obj.commandName) {
-      setCommand(obj.commandName)
+    if (tg.initDataUnsafe) {
+      const obj = {}
+      decodeURI(window.location.search).replaceAll("%20", " ").slice(1).split("&").forEach(param => {
+        const [name, parametr] = param.split("=")
+        obj[name] = parametr.replaceAll("%20", " ")
+      })
+
+      const {ref, callData} = obj
+      const response = await getIdFromDB(ref, callData, tg)
+
+
+      setQuery({...obj, ...response})
+
+      if (obj.commandName) {
+        setCommand(obj.commandName)
+      }
+
+      tg.ready()
+
+
+
+      console.log({...obj, ...response})
     }
-    tgStart(tg, obj)
-    console.log("fetch")
 
-  }, [])
+  }, [tg])
 
   useEffect(() => {
     try {
@@ -75,15 +86,38 @@ function Iphone() {
 
 
   const onSendData = useCallback(async () => {
-    try {
-      const responce = await sendToDB({name, phone, steamName, query, ip})
-      if (responce.status === 200) {
-        tg.close()
-      }
-    } catch (error) {
+    async function fetchWithRetry(quer, retries = 3, delay = 1000) {
+      for (let i = 0; i < retries; i++) {
+        try {
+          const response = await sendToDB(quer)
 
-      console.log(error)
+          // Если запрос успешен, возвращаем результат
+          if (response.status === 200) {
+            console.log("done")
+            return tg.close()
+          } else {
+            throw new Error(`Ошибка HTTP: ${response.status}`);
+          }
+        } catch (error) {
+          if (i < retries - 1) {
+            console.log(`Попытка ${i + 1} не удалась. Повтор через ${delay} мс.`);
+            await new Promise(res => setTimeout(res, delay)); // Ждем перед повторной попыткой
+          } else {
+            console.error('Все попытки исчерпаны. Ошибка:', error);
+            throw error; // Пробрасываем ошибку, если это была последняя попытка
+          }
+        }
+      }
     }
+
+    await fetchWithRetry({name, phone, steamName, query, ip}, 4, 1000)
+
+
+
+
+
+
+
   }, [name, phone, steamName, query])
 
   useEffect(() => {
@@ -92,6 +126,14 @@ function Iphone() {
       tg.offEvent('mainButtonClicked', onSendData)
     }
   }, [onSendData])
+
+  useEffect(() => {
+    tg.MainButton.show()
+    tg.MainButton.setParams({
+      text: query.regText,
+      color: "#888888"
+    })
+  }, [query]);
 
   useEffect(() => {
     const namecorr = NameIsCorrect(name)
@@ -115,7 +157,7 @@ function Iphone() {
       className={styles.bigcontainer}>
       <img
         className={styles.image}
-        src={backgroundsImg[query?.callData?.split("_")[0]]}
+        src={query.inAppimageUrl}
         alt={"SkyNet"}
       />
       <div className={styles.container}>

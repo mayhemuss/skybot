@@ -61,6 +61,6 @@ export const PhoneIsCorrect = (phone) => {
 }
 
 
-export const CommandCorrect = (command) => {
+export const CommandCorrect = (command = "") => {
   return command.length >= 1
 }

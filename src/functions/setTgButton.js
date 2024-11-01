@@ -13,13 +13,4 @@ export const tgDisable = (tg) => {
   })
 }
 
-export const tgStart = (tg, obj)=>{
-  tg.ready()
 
-  tg.MainButton.show()
-  tg.MainButton.setParams({
-    text: obj.regText,
-    color: "#888888"
-  })
-  getIdFromDB(tg).then()
-}
