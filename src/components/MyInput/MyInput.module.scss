@@ -1,0 +1,31 @@
+
+.text {
+  display: flex;
+  font-family: "Roboto";
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  width: 100%;
+  background-color: white;
+  padding: 7px;
+  border-radius: 10px
+}
+
+.goodImg{
+  width: 10%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-left: 2%;
+}
+.input{
+  border: none;
+  width: 90%;
+  resize: none;
+  font-family: Roboto;
+  font-size: 23px;
+  padding: 7px
+}

@@ -1,4 +1,4 @@
-.bigcontainer{
+.bigcontainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -6,9 +6,10 @@
   height: 100%;
   max-width: 550px;
   width: 550px;
+  color: white;
 }
 
-.image{
+.image {
   display: flex;
   position: fixed;
   top: 0;
@@ -16,7 +17,7 @@
   width: 100%;
 }
 
-.container{
+.container {
   display: flex;
   position: absolute;
   top: 0;
@@ -28,7 +29,8 @@
   font-size: 20px;
   align-items: center;
 }
-.popup{
+
+.popup {
   background-color: rgba(0, 0, 0, 0.5);
   padding: 35px;
   border-radius: 25px;
@@ -36,7 +38,8 @@
   flex-direction: column;
   margin: 17px;
 }
-.phone{
+
+.phone {
   display: flex;
   font-size: 23px;
   padding: 10px;
@@ -44,7 +47,8 @@
   width: 95%;
   font-family: "Roboto";
 }
-.name{
+
+.name {
   display: flex;
   font-size: 23px;
   padding: 10px;
@@ -56,14 +60,14 @@
 }
 
 
-.text{
+.text {
 
 
   display: flex;
   font-family: "Roboto";
 }
 
-.userName{
+.userName {
   display: flex;
   margin-top: 15px;
   font-size: 25pt;

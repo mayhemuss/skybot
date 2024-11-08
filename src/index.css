@@ -6,7 +6,9 @@
 
 body {
     background: var(--tg-theme-bg-color);
-    color: white;
+    font-family: "Roboto";
+    color: black;
+    height: 100%;
     width: 550px;
 }
 
@@ -20,8 +22,4 @@ body {
     max-width: 550px;
 }
 
-.body {
-    font-family: "Roboto";
 
-
-}

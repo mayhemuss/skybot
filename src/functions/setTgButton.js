@@ -1,4 +1,4 @@
-import {getIdFromDB} from "./getIdFromDB";
+
 
 export const tgEnable = (tg) => {
   tg.MainButton.enable()
