@@ -5,6 +5,7 @@ import {BACK_URL} from "../urls";
 export const queryThunk = createAsyncThunk(
   'api/monterList',
   async (body, thunkAPI) => {
+    console.log(`${BACK_URL}/type`)
     try {
 
       const responce = await axios.post(`${BACK_URL}/type`, body, {headers: {'Access-Control-Allow-Origin': '*'}})
@@ -14,6 +15,8 @@ export const queryThunk = createAsyncThunk(
       thunkAPI.dispatch(queryActions.setInAppimageUrl(responce.data.inAppimageUrl))
       thunkAPI.dispatch(queryActions.setFields(responce.data.fields))
       thunkAPI.dispatch(queryActions.setRegText(responce.data.regText))
+      thunkAPI.dispatch(queryActions.setData(responce.data.Data))
+
       if (responce.data.commandName) {
         thunkAPI.dispatch(queryActions.setCommandName(responce.data.commandName))
       }
@@ -31,6 +34,7 @@ const initialState = {
   ref: "",
   isLoading: false,
   fields: [],
+  Data: +(new Date(2300, 1, 1)),
   inAppimageUrl: "https://sun9-36.userapi.com/impg/5wsa0laxsuOBStXoQTHxvyy1WXL1x9XWQgguhg/fpeANuWJtRc.jpg?size=1920x1080&quality=95&sign=484509bab898750662d9f9e780afc5b5&type=album",
   commandName: "",
   regText: "Зарегистрироваться"
@@ -61,8 +65,9 @@ export const querySlice = createSlice({
     setRef: (state, action) => {
       state.ref = action.payload
     },
-
-
+    setData: (state, action) => {
+      state.Data = action.payload
+    }
 
   },
   extraReducers: (builder) => {
@@ -95,3 +100,4 @@ export const getRegText = (state) => state.query.regText
 export const getCommandName = (state) => state.query.commandName
 export const getCallData = (state) => state.query.callData
 export const getRef = (state) => state.query.ref
+export const getData = (state) => state.query.Data

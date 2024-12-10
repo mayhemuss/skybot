@@ -10,7 +10,7 @@ import {
   getInAppimageUrl,
   getRegText,
   queryActions,
-  getCallData, getRef
+  getCallData, getRef, getData
 } from "../../slice/query";
 import {fetchWithRetry} from "../../functions/fetchWithRetry";
 import {fieldsActions, getObj} from "../../slice/fields";
@@ -27,9 +27,9 @@ function Game() {
   const regText = useSelector(getRegText)
   const finalData = useSelector(getObj)
   const call = useSelector(getCallData)
+  const Data = useSelector(getData)
   const reff = useSelector(getRef)
 
-  const [Data, setData] = useState(+(new Date(2300, 1, 1)))
   const currentDate = new Date()
 
   const [checked, setChecked] = useState(false)
@@ -46,8 +46,6 @@ function Game() {
         })
 
         const {ref, callData} = obj
-
-        setData(callData?.split("_")[1])
 
         tg.ready();
 
